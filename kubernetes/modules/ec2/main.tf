@@ -11,7 +11,7 @@ resource "aws_instance" "master_ec2" {
   associate_public_ip_address = var.associate_public_ip_address
   vpc_security_group_ids      = [var.security_group]
   user_data                   = var.user_data_script
-  iam_instance_profile        = "Loadbalancer"
+  
 
   tags = {
     Name = "${var.instance_name["master"]}"
@@ -33,7 +33,7 @@ resource "aws_instance" "worker-1_ec2" {
   associate_public_ip_address = var.associate_public_ip_address
   vpc_security_group_ids      = [var.security_group]
   user_data                   = var.user_data_script
-  iam_instance_profile        = "Loadbalancer"
+  
 
   tags = {
     Name = "${var.instance_name["worker-1"]}"
@@ -54,7 +54,7 @@ resource "aws_instance" "woker-2_ec2" {
   associate_public_ip_address = var.associate_public_ip_address
   vpc_security_group_ids      = [var.security_group]
   user_data                   = var.user_data_script
-  iam_instance_profile        = "Loadbalancer"
+  
 
   tags = {
     Name = "${var.instance_name["worker-2"]}"

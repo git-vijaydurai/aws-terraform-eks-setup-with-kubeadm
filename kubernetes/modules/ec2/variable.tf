@@ -74,15 +74,20 @@ variable "user_data_script" {
   default = <<-EOF
     #!/bin/bash
 
-    sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+    sudo apt-get update && echo | sudo apt-get  install awscli
 
-    sudo curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    aws s3 cp s3://automation-ec2-v.1/set_hostname.sh .
 
-    echo | sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+    aws s3 cp s3://automation-ec2-v.1/kubeadm.sh .
 
-    sudo apt-get update && sudo apt-get install -y kubelet=1.20.0-00 kubeadm=1.20.0-00 kubectl=1.20.0-00 docker.io
+    chmod +x *.sh
 
-    sudo systemctl start docker && sudo systemctl enable docker
+    bash kubeadm.sh
+    
+    bash set_hostname.sh
+
+    sudo reboot
+
 
 
 
