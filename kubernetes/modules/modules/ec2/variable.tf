@@ -92,7 +92,7 @@ variable "user_data_script" {
 
     sudo reboot
 
-
+    
 
 
   EOF
