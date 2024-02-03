@@ -37,7 +37,7 @@ resource "aws_internet_gateway" "igw" {
 }
 
 
-resource "aws_route_table" "route_table" {
+resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.kube_adm_vpc.id
 
   route {
@@ -46,17 +46,31 @@ resource "aws_route_table" "route_table" {
   }
 
   tags = {
-    Name = var.routetable_name
+    Name = var.public_routetable_name
   }
 }
 
-resource "aws_route_table_association" "one_route_associate" {
+resource "aws_route_table_association" "public_route_associate" {
   subnet_id      = aws_subnet.subnet_1.id
-  route_table_id = aws_route_table.route_table.id
+  route_table_id = aws_route_table.public_route_table.id
 }
 
 
-resource "aws_route_table_association" "two_route_associate" {
+resource "aws_route_table" "private_route_table" {
+  vpc_id = aws_vpc.kube_adm_vpc.id
+
+  route {
+    cidr_block           = var.cidr_open
+    network_interface_id = var.nat_network_interface_id
+
+  }
+
+  tags = {
+    Name = var.private_routetable_name
+  }
+}
+
+resource "aws_route_table_association" "private_route_associate" {
   subnet_id      = aws_subnet.subnet_2.id
-  route_table_id = aws_route_table.route_table.id
+  route_table_id = aws_route_table.private_route_table.id
 }

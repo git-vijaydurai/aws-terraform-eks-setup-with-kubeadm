@@ -46,10 +46,18 @@ variable "cidr_open" {
   default = "0.0.0.0/0"
 }
 
-variable "routetable_name" {
+variable "public_routetable_name" {
   type    = string
-  default = "route-table"
+  default = "public_route-table"
 
 }
 
+variable "private_routetable_name" {
+  type    = string
+  default = "private_route-table"
 
+}
+
+variable "nat_network_interface_id" {
+
+}

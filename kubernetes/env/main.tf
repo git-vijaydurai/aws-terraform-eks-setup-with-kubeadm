@@ -1,6 +1,7 @@
 module "vpc_module" {
 
-  source = "../modules/vpc"
+  source                   = "../modules/vpc"
+  nat_network_interface_id = module.ec2_module.net_id
 
 
 }
