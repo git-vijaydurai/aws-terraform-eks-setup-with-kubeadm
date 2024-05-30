@@ -1,6 +1,6 @@
 variable "ec2_ami-id" {
 
-  default = "ami-0a7cf821b91bcccbc"
+  default = "ami-0a1b648e2cd533174"
 
 }
 
@@ -98,17 +98,23 @@ variable "user_data_script_master" {
   default = <<-EOF
     #!/bin/bash
 
+    sudo swapoff -a
+
     sudo apt-get update && echo | sudo apt-get  install awscli
 
-    aws s3 cp s3://automation-ec2-v.1/pri.pem .
+    sudo apt-get install cron -y
 
-    aws s3 cp s3://automation-ec2-v.1/set_hostname.sh .
+    aws s3 cp s3://automation-ec2-v.2/pri.pem .
 
-    aws s3 cp s3://automation-ec2-v.1/kubeadm.sh .
+    aws s3 cp s3://automation-ec2-v.2/set_hostname.sh .
 
-    aws s3 cp s3://automation-ec2-v.1/route53_record_entry.sh .
+    aws s3 cp s3://automation-ec2-v.2/kubeadm.sh .
 
-    aws s3 cp s3://automation-ec2-v.1/kube-flannel.yaml .
+    aws s3 cp s3://automation-ec2-v.2/route53_record_entry.sh .
+
+    aws s3 cp s3://automation-ec2-v.2/kube-flannel.yaml .
+
+    aws s3 cp s3://automation-ec2-v.2/auto_crontab.sh .
 
     chmod +x *.sh
 
@@ -117,6 +123,8 @@ variable "user_data_script_master" {
     bash set_hostname.sh
 
     bash route53_record_entry.sh
+
+    bash auto_crontab.sh
 
     chmod 440 pri.pem
 
@@ -139,13 +147,15 @@ variable "user_data_script_worker" {
   default = <<-EOF
     #!/bin/bash
 
+    sudo swapoff -a
+
     sudo apt-get update && echo | sudo apt-get  install awscli
 
-    aws s3 cp s3://automation-ec2-v.1/pri.pem .
+    aws s3 cp s3://automation-ec2-v.2/pri.pem .
 
-    aws s3 cp s3://automation-ec2-v.1/set_hostname.sh .
+    aws s3 cp s3://automation-ec2-v.2/set_hostname.sh .
 
-    aws s3 cp s3://automation-ec2-v.1/kubeadm.sh .
+    aws s3 cp s3://automation-ec2-v.2/kubeadm.sh .
 
     chmod +x *.sh
 
